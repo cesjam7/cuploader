@@ -1,17 +1,22 @@
 <?php if ($_POST) {
-    $ds          = DIRECTORY_SEPARATOR;  //1
+    $ds          = DIRECTORY_SEPARATOR;
     $result = false;
-    $storeFolder = $_POST['ruta'];   //2
+    $storeFolder = $_POST['ruta'];
+
+    // Verificar si carpeta existe, si no, crearlo
+    // if (!file_exists($storeFolder . $ds)) {
+    //     mkdir($storeFolder . $ds, 0777, true);
+    // }
 
     if (!empty($_FILES)) {
 
-        $tempFile = $_FILES['file']['tmp_name'];          //3
+        $tempFile = $_FILES['file']['tmp_name'];
 
-        $targetPath = dirname( __FILE__ ) . $ds. $storeFolder . $ds;  //4
+        $targetPath = dirname( __FILE__ ) . $ds. $storeFolder . $ds;
 
-        $targetFile =  $targetPath. $_FILES['file']['name'];  //5
+        $targetFile =  $targetPath. $_FILES['file']['name'];
 
-        $result = move_uploaded_file($tempFile,$targetFile); //6
+        $result = move_uploaded_file($tempFile,$targetFile);
 
     }
 } ?>
@@ -41,7 +46,7 @@
         <form action="cuploader.php" method="POST" class="dropzone" enctype="multipart/form-data">
             <div class="espacio">
                 <div class="form-group">
-                    <input type="text" class="form-control" name="ruta" placeholder='Ingresa la ruta a subir. No escribir "/" al final.'>
+                    <input type="text" class="form-control" name="ruta" placeholder='Ingresa la ruta a subir. No escribir "/" al final.' <?php if($POST && $_POST['ruta']) echo 'value="'.$_POST['ruta'].'"' ?>>
                 </div>
                 <input type="submit" class="btn btn-primary btn-block" value="Subir archivos">
             </div>
